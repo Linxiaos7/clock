@@ -1,0 +1,184 @@
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>当前时间</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .father {
+            width: 100vw;
+            height: 100vh;
+            /* background-color: cadetblue; */
+            background-color: black;
+            position: relative;
+        }
+
+        .box {
+            width: 400px;
+            height: 145px;
+            /* background-color: rgb(56, 56, 56); */
+            background-color: black;
+            border: 20px solid #f5cd92;
+            color: white;
+            border-radius: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 15px 0;
+        }
+
+        #time {
+            font-size: 85px;
+            font-weight: 700;
+            /* text-align: center;
+        line-height: 280px; */
+        }
+        #date{
+            /*position: absolute;*/
+            /*top: calc(50% - 115px);*/
+            /*left: calc(50% - 180px);*/
+            /*color: white;*/
+            /*transform: translate(-50%, -50%);*/
+            font-weight: 700;
+        }
+        #countdown{
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            font-weight: 700;
+            color: white;
+        }
+        /*弹窗设置*/
+        /*隐藏弹窗*/
+        .psw-model{
+            display: none;/*默认隐藏*/
+            position: fixed;/*固定位置*/
+            z-index: 1;/*确保弹窗在顶层*/
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;/*全屏*/
+            /*height: 100%;*/
+            overflow: auto;/*允许滚动*/
+            background-color: #00000050;/*半透明黑色背景*/
+        }
+
+        /*弹窗内容*/
+        .forgetedpsw-model {
+            position: relative;
+            background-color: #fff;
+            margin: 15% auto;/*居中 */
+            padding: 60px;/*弹窗大小设置*/
+            border: 1px solid #888;
+            width: 30%;
+        }
+
+        /*关闭按钮*/
+        .close {
+            position: absolute;
+            color: #aaa;
+            top: 1px;
+            right: 10px;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="father">
+    <div class="box">
+        <div id="date"></div>
+        <div id="time"></div>
+    </div>
+    <div id="countdown"></div>
+    <div id="changepswModel" class="psw-model">
+        <div class="forgetedpsw-model" id="forgetedpsw-model">
+            <span class="close">&times;</span>
+            <h1>计时器_倒计时</h1>
+            <label for="custom-time-minutes">设置时间（分：秒，不满一分请在分钟栏填0）：</label>
+            <p>
+                <input type="number" id="custom-time-minutes" min="0" value="0"> 分
+                <input type="number" id="custom-time-seconds" min="1" max="59" value="60"> 秒
+            </p>
+            <button onclick="startCountdown()">开始倒计时</button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function time () {
+        document.getElementById(
+            'time'
+        ).innerText = new Date().toLocaleTimeString()
+        document.getElementById(
+            'date'
+        ).innerText = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, ' ');
+    }
+    setInterval(time, 1000)
+
+    let countdownInterval;
+
+    function startCountdown() {
+        const customTimeMinutes = parseInt(document.getElementById('custom-time-minutes').value);
+        const customTimeSeconds = parseInt(document.getElementById('custom-time-seconds').value);
+        let timeLeft = customTimeMinutes * 60 + customTimeSeconds;
+        clearInterval(countdownInterval);
+        countdownInterval = setInterval(function() {
+            if (timeLeft <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown').innerText = '倒计时结束！';
+                alert('时间到');
+                new Notification("时间到");
+            } else {
+                const minutesLeft = Math.floor(timeLeft / 60);
+                const secondsLeft = timeLeft % 60;
+                document.getElementById('countdown').innerText = '倒计时：' + minutesLeft + ' 分 ' + secondsLeft + ' 秒';
+                timeLeft--;
+            }
+        }, 1000);
+        changeModel.style.display = "none";
+    }
+
+    var timeEle = document.getElementById("time");
+    var changeModel = document.getElementById("changepswModel");
+    //点击相关按钮时显示弹窗forgetpswModel
+    timeEle.onclick = function() {
+        changeModel.style.display = "block";
+    }
+    changeModel.onclick = function() {
+        changeModel.style.display = "none";
+    }
+    //当用户点击关闭按钮时，关闭弹窗forgetpswModel
+    var pswcloseBtn = document.getElementsByClassName("close")[0];
+    pswcloseBtn.onclick = function() {
+        changeModel.style.display = "none";
+    }
+    var forgetedpswModel = document.getElementById("forgetedpsw-model");
+    forgetedpswModel.addEventListener('click', function(event) {
+        event.stopPropagation(); // 停止事件传播
+        console.log('子元素被点击');
+    });
+</script>
+
+</html>
