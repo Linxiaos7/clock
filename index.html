@@ -107,7 +107,7 @@
 
 <body>
 <div class="father">
-    <button>点击发起通知</button>
+    <button id="btn">点击发起通知</button>
     <div class="box">
         <div id="date"></div>
         <div id="time"></div>
@@ -139,7 +139,7 @@
                 }
             });
         }
-        var button = document.getElementsByTagName("button")[0];
+        var button = document.getElementById('btn');
         button.addEventListener("click", function() {
             // 如果用户同意就创建一个通知
             if (window.Notification && Notification.permission === "granted") {
