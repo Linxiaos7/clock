@@ -107,7 +107,7 @@
 
 <body>
 <div class="father">
-<!--     <button id="btn">点击发起通知</button> -->
+    <!--     <button id="btn">点击发起通知</button> -->
     <div class="box">
         <div id="date"></div>
         <div id="time"></div>
@@ -122,6 +122,7 @@
                 <input type="number" id="custom-time-minutes" min="0" value="0"> 分
                 <input type="number" id="custom-time-seconds" min="1" max="59" value="60"> 秒
             </p>
+            <p>提示语：<input type="text" id="des" value="时间到咯"></p>
             <button onclick="startCountdown()">开始倒计时</button>
         </div>
     </div>
@@ -172,33 +173,42 @@
     //     });
     // });
     //显示时间和日期
-    function time () {
+    function time() {
         document.getElementById(
             'time'
         ).innerText = new Date().toLocaleTimeString()
         document.getElementById(
             'date'
-        ).innerText = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).replace(/,/g, ' ');
+        ).innerText = new Date().toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }).replace(/,/g, ' ');
     }
+
     setInterval(time, 1000)
 
     let countdownInterval;
+
     // 设置倒计时
     function startCountdown() {
+        let des = document.getElementById('des')
+        console.log(des.value)
         const customTimeMinutes = parseInt(document.getElementById('custom-time-minutes').value);
         const customTimeSeconds = parseInt(document.getElementById('custom-time-seconds').value);
         let timeLeft = customTimeMinutes * 60 + customTimeSeconds;
         clearInterval(countdownInterval);
-        countdownInterval = setInterval(function() {
+        countdownInterval = setInterval(function () {
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
                 document.getElementById('countdown').innerText = '';
-                var notification = new Notification("您有一条新的消息",{  
-                    // dir: "auto",  
-                    // lang: "zh-CN",  
-                    // tag: "testNotice",  
-                    // icon:'ant.png',  
-                    body: '时间到咯' 
+                var notification = new Notification("时间到咯", {
+                    // dir: "auto",
+                    // lang: "zh-CN",
+                    // tag: "testNotice",
+                    // icon:'ant.png',
+                    body: des.value
                 });
                 // alert('时间到');
             } else {
@@ -214,19 +224,19 @@
     var timeEle = document.getElementById("time");
     var changeModel = document.getElementById("changepswModel");
     //点击相关按钮时显示弹窗forgetpswModel
-    timeEle.onclick = function() {
+    timeEle.onclick = function () {
         changeModel.style.display = "block";
     }
-    changeModel.onclick = function() {
+    changeModel.onclick = function () {
         changeModel.style.display = "none";
     }
     //当用户点击关闭按钮时，关闭弹窗forgetpswModel
     var pswcloseBtn = document.getElementsByClassName("close")[0];
-    pswcloseBtn.onclick = function() {
+    pswcloseBtn.onclick = function () {
         changeModel.style.display = "none";
     }
     var forgetedpswModel = document.getElementById("forgetedpsw-model");
-    forgetedpswModel.addEventListener('click', function(event) {
+    forgetedpswModel.addEventListener('click', function (event) {
         event.stopPropagation(); // 停止事件传播
         console.log('子元素被点击');
     });
