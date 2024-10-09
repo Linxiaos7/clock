@@ -193,8 +193,8 @@
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
                 document.getElementById('countdown').innerText = '';
-                alert('时间到');
                 new Notification("时间到");
+                alert('时间到');
             } else {
                 const minutesLeft = Math.floor(timeLeft / 60);
                 const secondsLeft = timeLeft % 60;
