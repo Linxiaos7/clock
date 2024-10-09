@@ -193,7 +193,14 @@
             if (timeLeft <= 0) {
                 clearInterval(countdownInterval);
                 document.getElementById('countdown').innerText = '';
-                new Notification("时间到");
+                var notification = new Notification("您有一条新的消息",{  
+                    // dir: "auto",  
+                    // lang: "zh-CN",  
+                    // tag: "testNotice",  
+                    // icon:'ant.png',  
+                    body: '时间到咯' 
+                    });   
+                }
                 alert('时间到');
             } else {
                 const minutesLeft = Math.floor(timeLeft / 60);
