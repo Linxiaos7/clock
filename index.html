@@ -171,7 +171,7 @@
             }
         });
     });
-    
+    //显示时间和日期
     function time () {
         document.getElementById(
             'time'
@@ -183,7 +183,7 @@
     setInterval(time, 1000)
 
     let countdownInterval;
-
+    // 设置倒计时
     function startCountdown() {
         const customTimeMinutes = parseInt(document.getElementById('custom-time-minutes').value);
         const customTimeSeconds = parseInt(document.getElementById('custom-time-seconds').value);
